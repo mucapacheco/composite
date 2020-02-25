@@ -14,7 +14,14 @@ abstract class DecisionRun<T> implements IRun<T>{
         return this.children;
     }
 
-    abstract run(bag: T);
+    run(bag: RegistrarBoletoModel) {
+        bag.log.process();
+        let array = Object.keys(this.children);
+        const randomElement = array[Math.floor(Math.random() * array.length)];
+        let children:IRun<RegistrarBoletoModel>[] = this.children[randomElement];
+        bag.log.process(randomElement);
+        children.forEach((item) =>item.run(bag));
+    }
 
 }
 

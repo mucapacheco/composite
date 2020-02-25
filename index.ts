@@ -17,6 +17,11 @@ import PessoaFisicaSantander from "./Processos/RegistrarBoleto/Api/Santander/Reg
 import PessoaJuridicaSantander from "./Processos/RegistrarBoleto/Api/Santander/Registrar/PessoaJuridica";
 import RegistrarItau from "./Processos/RegistrarBoleto/Api/Itau/Registrar";
 import RegistrarBoletoService from "./Processos/RegistrarBoletoService";
+import ValidarDados from "./Processos/RegistrarBoleto/Validacoes/ValidarDados";
+import ValidarDevedor from "./Processos/RegistrarBoleto/Validacoes/ValidarDevedor";
+import ValidarEndereco from "./Processos/RegistrarBoleto/Validacoes/ValidarEndereco";
+import ValidarEmail from "./Processos/RegistrarBoleto/Validacoes/ValidarEmail";
+import ValidarTelefone from "./Processos/RegistrarBoleto/Validacoes/ValidarTelefone";
 const server = restify.createServer({
     name:'RegistrarBanco',
     version:'1.0',
@@ -35,19 +40,25 @@ server.get('/',(request,response,next)=>{
                 ]
             )
         ]),
+        new ValidarDados([
+            new ValidarDevedor(),
+            new ValidarEndereco(),
+            new ValidarTelefone(),
+            new ValidarEmail(),
+        ]),
         new RegistrarBoleto({
-            itau:[
+            Itau:[
                 new LoginItau(),
                 new BuscarIndentificadorUnicoItau(),
                 new RegistrarItau(),
             ],
-            santander:[
+            Santander:[
                 new LoginSantander(),
                 new RegistrarSantander({
-                    pessoafisica:[
+                    PessoaFisica:[
                         new PessoaFisicaSantander()
                     ],
-                    pessoajuridica:[
+                    PessoaJuridica:[
                         new PessoaJuridicaSantander()
                     ],
                 }),
@@ -60,7 +71,11 @@ server.get('/',(request,response,next)=>{
         log: model.log
     };
 
-    registrarNoBanco.run(model);
+    try {
+        registrarNoBanco.run(model);
+    }catch (e) {
+        model.log.push(e.message);
+    }
 
     response.json(result);
     return next;

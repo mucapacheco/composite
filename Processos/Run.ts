@@ -8,7 +8,7 @@ class Run<T> implements IRun<T>{
     }
 
     public run(bag : T){
-        bag["log"].push(this.constructor.name);
+        bag["log"].process();
         this.children.forEach(run => run.run(bag));
     }
 

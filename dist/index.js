@@ -18,6 +18,11 @@ const PessoaFisica_1 = require("./Processos/RegistrarBoleto/Api/Santander/Regist
 const PessoaJuridica_1 = require("./Processos/RegistrarBoleto/Api/Santander/Registrar/PessoaJuridica");
 const Registrar_2 = require("./Processos/RegistrarBoleto/Api/Itau/Registrar");
 const RegistrarBoletoService_1 = require("./Processos/RegistrarBoletoService");
+const ValidarDados_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarDados");
+const ValidarDevedor_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarDevedor");
+const ValidarEndereco_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarEndereco");
+const ValidarEmail_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarEmail");
+const ValidarTelefone_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarTelefone");
 const server = restify.createServer({
     name: 'RegistrarBanco',
     version: '1.0',
@@ -33,19 +38,25 @@ server.get('/', (request, response, next) => {
                 new BuscaTelefone_1.default()
             ])
         ]),
+        new ValidarDados_1.default([
+            new ValidarDevedor_1.default(),
+            new ValidarEndereco_1.default(),
+            new ValidarTelefone_1.default(),
+            new ValidarEmail_1.default(),
+        ]),
         new RegistrarBoleto_1.default({
-            itau: [
+            Itau: [
                 new Login_1.default(),
                 new BuscarIndentificadorUnico_1.default(),
                 new Registrar_2.default(),
             ],
-            santander: [
+            Santander: [
                 new Login_2.default(),
                 new Registrar_1.default({
-                    pessoafisica: [
+                    PessoaFisica: [
                         new PessoaFisica_1.default()
                     ],
-                    pessoajuridica: [
+                    PessoaJuridica: [
                         new PessoaJuridica_1.default()
                     ],
                 }),
@@ -56,7 +67,12 @@ server.get('/', (request, response, next) => {
         estrutura: ExtractTree_1.default.get(registrarNoBanco),
         log: model.log
     };
-    registrarNoBanco.run(model);
+    try {
+        registrarNoBanco.run(model);
+    }
+    catch (e) {
+        model.log.push(e.message);
+    }
     response.json(result);
     return next;
 });

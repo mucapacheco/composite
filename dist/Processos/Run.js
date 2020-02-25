@@ -6,7 +6,7 @@ class Run {
         this.children = children;
     }
     run(bag) {
-        bag["log"].push(this.constructor.name);
+        bag["log"].process();
         this.children.forEach(run => run.run(bag));
     }
     getChildren() {
