@@ -1,0 +1,19 @@
+{
+  "name": "Composite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^13.7.4",
+    "@types/restify": "^8.4.2"
+  },
+  "dependencies": {
+    "restify": "^8.5.1"
+  }
+}

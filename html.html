@@ -1,0 +1,27 @@
+<html>
+<script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
+<script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-bundle.min.js"></script>
+<script>
+    //let tree = {"name":"Run","value":1,"children":[{"name":"TratarRequest","value":1,"children":[]},{"name":"BuscaDoBanco","value":1,"children":[{"name":"BuscaDevedor","value":1,"children":[]},{"name":"BuscaDadosBasicos","value":1,"children":[{"name":"BuscaEndereco","value":1,"children":[]},{"name":"BuscaTelefone","value":1,"children":[]}]}]},{"name":"RegistrarBoleto","value":1,"children":[{"name":"itau","value":1,"children":[{"name":"LoginItau","value":1,"children":[]},{"name":"BuscarIndentificadorUnicoItau","value":1,"children":[]},{"name":"RegistrarItau","value":1,"children":[]}]},{"name":"santander","value":1,"children":[{"name":"LoginSantander","value":1,"children":[]},{"name":"RegistrarSantander","value":1,"children":[{"name":"pessoafisica","value":1,"children":[{"name":"PessoaFisicaSantander","value":1,"children":[]}]},{"name":"pessoajuridica","value":1,"children":[{"name":"PessoaJuridicaSantander","value":1,"children":[]}]}]}]}]}]}
+    let tree = {"value":"Run","v":1,"children":[{"value":"TratarRequest","v":1,"children":[]},{"value":"BuscaDoBanco","v":1,"children":[{"value":"BuscaDevedor","v":1,"children":[]},{"value":"BuscaDadosBasicos","v":1,"children":[{"value":"BuscaEndereco","v":1,"children":[]},{"value":"BuscaTelefone","v":1,"children":[]}]}]},{"value":"RegistrarBoleto","v":1,"children":[{"value":"itau","v":1,"children":[{"value":"LoginItau","v":1,"children":[]},{"value":"BuscarIndentificadorUnicoItau","v":1,"children":[]},{"value":"RegistrarItau","v":1,"children":[]}]},{"value":"santander","v":1,"children":[{"value":"LoginSantander","v":1,"children":[]},{"value":"RegistrarSantander","v":1,"children":[{"value":"pessoafisica","v":1,"children":[{"value":"PessoaFisicaSantander","v":1,"children":[]}]},{"value":"pessoajuridica","v":1,"children":[{"value":"PessoaJuridicaSantander","v":1,"children":[]}]}]}]}]}]}
+
+        let data = [tree]
+    anychart.onDocumentReady(function () {
+
+// create a chart and set the data
+        var chart = anychart.wordtree(data, "as-tree");
+
+// set the container id
+        chart.container("container");
+
+// initiate drawing the chart
+        chart.draw();
+    });
+
+</script>
+<body>
+    <div id="container">
+
+    </div>
+</body>
+</html>
