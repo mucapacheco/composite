@@ -65,13 +65,14 @@ server.get('/', (request, response, next) => {
     ]);
     let result = {
         estrutura: ExtractTree_1.default.get(registrarNoBanco),
-        log: model.log
+        log: model.log,
+        success: true
     };
     try {
         registrarNoBanco.run(model);
     }
     catch (e) {
-        model.log.push(e.message);
+        result.success = false;
     }
     response.json(result);
     return next;
@@ -81,4 +82,4 @@ server.use(function crossOrigin(req, res, next) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     return next();
 });
-server.listen(3000);
+server.listen(4200);

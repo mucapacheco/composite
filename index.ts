@@ -68,13 +68,14 @@ server.get('/',(request,response,next)=>{
 
     let result = {
         estrutura: ExtractTree.get(registrarNoBanco),
-        log: model.log
+        log: model.log,
+        success:true
     };
 
     try {
         registrarNoBanco.run(model);
     }catch (e) {
-        model.log.push(e.message);
+        result.success = false;
     }
 
     response.json(result);
@@ -87,4 +88,4 @@ server.use(
         return next();
     }
 )
-server.listen(3000);
+server.listen(4200);

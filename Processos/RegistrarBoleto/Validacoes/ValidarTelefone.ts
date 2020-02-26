@@ -5,8 +5,10 @@ class ValidarTelefone extends Run<RegistrarBoletoModel>{
 
 
     run(bag: RegistrarBoletoModel) {
-        bag.log.push("Telefone inválido");
-        throw new Error('Telefone inválido');
+        if(Math.random()*10 > 5){
+            bag.log.push("Telefone inválido");
+            throw new Error('Telefone inválido');
+        }
 
         super.run(bag);
     }
