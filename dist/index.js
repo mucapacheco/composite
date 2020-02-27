@@ -23,6 +23,7 @@ const ValidarDevedor_1 = require("./Processos/RegistrarBoleto/Validacoes/Validar
 const ValidarEndereco_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarEndereco");
 const ValidarEmail_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarEmail");
 const ValidarTelefone_1 = require("./Processos/RegistrarBoleto/Validacoes/ValidarTelefone");
+const EnviarBoletoPorEmail_1 = require("./Processos/RegistrarBoleto/EnviarBoletoPorEmail");
 const server = restify.createServer({
     name: 'RegistrarBanco',
     version: '1.0',
@@ -61,7 +62,8 @@ server.get('/', (request, response, next) => {
                     ],
                 }),
             ],
-        })
+        }),
+        new EnviarBoletoPorEmail_1.default()
     ]);
     let result = {
         estrutura: ExtractTree_1.default.get(registrarNoBanco),

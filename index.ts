@@ -22,6 +22,7 @@ import ValidarDevedor from "./Processos/RegistrarBoleto/Validacoes/ValidarDevedo
 import ValidarEndereco from "./Processos/RegistrarBoleto/Validacoes/ValidarEndereco";
 import ValidarEmail from "./Processos/RegistrarBoleto/Validacoes/ValidarEmail";
 import ValidarTelefone from "./Processos/RegistrarBoleto/Validacoes/ValidarTelefone";
+import EnviarBoletoPorEmail from "./Processos/RegistrarBoleto/EnviarBoletoPorEmail";
 const server = restify.createServer({
     name:'RegistrarBanco',
     version:'1.0',
@@ -30,6 +31,7 @@ const server = restify.createServer({
 
 server.get('/',(request,response,next)=>{
     const model = new RegistrarBoletoModel();
+
     const registrarNoBanco = new RegistrarBoletoService([
         new TratarRequest(),
         new BuscaDoBanco([
@@ -63,7 +65,8 @@ server.get('/',(request,response,next)=>{
                     ],
                 }),
             ],
-        })
+        }),
+        new EnviarBoletoPorEmail()
     ]);
 
     let result = {
