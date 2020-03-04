@@ -4,8 +4,14 @@ class ExtractTree{
 
     static get<T>(father: IRun<T>){
         let children = father.getChildren();
+
+        let name = father.constructor.name;
+        if(father['name']){
+            name = father['name']
+        }
+
         let result   = {
-            name:father.constructor.name,
+            name,
             children:[]
         };
         if(Array.isArray(children)){

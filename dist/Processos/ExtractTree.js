@@ -3,8 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class ExtractTree {
     static get(father) {
         let children = father.getChildren();
+        let name = father.constructor.name;
+        if (father['name']) {
+            name = father['name'];
+        }
         let result = {
-            name: father.constructor.name,
+            name,
             children: []
         };
         if (Array.isArray(children)) {

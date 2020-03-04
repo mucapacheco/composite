@@ -1,5 +1,4 @@
 import * as restify from "restify";
-import Run from "./Processos/Run";
 import RegistrarBoletoModel from "./Processos/RegistrarBoleto/bag/RegistrarBoletoModel";
 import TratarRequest from "./Processos/RegistrarBoleto/TratarRequest";
 import BuscaDoBanco from "./Processos/RegistrarBoleto/BuscaDoBanco";
@@ -23,6 +22,8 @@ import ValidarEndereco from "./Processos/RegistrarBoleto/Validacoes/ValidarEnder
 import ValidarEmail from "./Processos/RegistrarBoleto/Validacoes/ValidarEmail";
 import ValidarTelefone from "./Processos/RegistrarBoleto/Validacoes/ValidarTelefone";
 import EnviarBoletoPorEmail from "./Processos/RegistrarBoleto/EnviarBoletoPorEmail";
+import BuscaContaAReceber from "./Processos/RegistrarBoleto/BuscaContaAReceber";
+
 const server = restify.createServer({
     name:'RegistrarBanco',
     version:'1.0',
@@ -34,38 +35,9 @@ server.get('/',(request,response,next)=>{
 
     const registrarNoBanco = new RegistrarBoletoService([
         new TratarRequest(),
-        new BuscaDoBanco([
-            new BuscaDevedor(),
-            new BuscaDadosBasicos([
-                    new BuscaEndereco(),
-                    new BuscaTelefone()
-                ]
-            )
-        ]),
-        new ValidarDados([
-            new ValidarDevedor(),
-            new ValidarEndereco(),
-            new ValidarTelefone(),
-            new ValidarEmail(),
-        ]),
-        new RegistrarBoleto({
-            Itau:[
-                new LoginItau(),
-                new BuscarIndentificadorUnicoItau(),
-                new RegistrarItau(),
-            ],
-            Santander:[
-                new LoginSantander(),
-                new RegistrarSantander({
-                    PessoaFisica:[
-                        new PessoaFisicaSantander()
-                    ],
-                    PessoaJuridica:[
-                        new PessoaJuridicaSantander()
-                    ],
-                }),
-            ],
-        }),
+        new BuscaDoBanco(),
+        new ValidarDados(),
+        new RegistrarBoleto(),
         new EnviarBoletoPorEmail()
     ]);
 
