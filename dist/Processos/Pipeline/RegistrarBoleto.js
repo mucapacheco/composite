@@ -4,11 +4,11 @@ class RegistrarBoleto {
     constructor() {
         this.process = [];
     }
-    execute(bag) {
-        this.process.forEach((process) => process());
+    registrar(model) {
+        this.process.forEach((process) => process(model));
     }
-    addProcess(processo) {
-        this.process.push(processo);
+    add(process) {
+        this.process.push(process);
     }
 }
 exports.default = RegistrarBoleto;

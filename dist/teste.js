@@ -12,19 +12,14 @@ const server = restify.createServer({
     version: '1.0',
 });
 server.get('/', (request, response, next) => {
-    const model = new RegistrarBoletoModel_1.default();
-    try {
-        const registrarBoleto = new RegistrarBoleto_1.default();
-        registrarBoleto.addProcess((bag) => (new ValidarEntradaDeDados_1.default()).validar(bag));
-        registrarBoleto.addProcess((bag) => (new BuscarDadosDoRepositorio_1.default()).buscar(bag));
-        registrarBoleto.addProcess((bag) => (new RegistrarNoBanco_1.default()).registrar(bag));
-        registrarBoleto.addProcess((bag) => (new EnviarBoletoParaOUsuario_1.default()).enviar(bag));
-        registrarBoleto.execute(model);
-    }
-    catch (e) {
-        result.success = false;
-    }
-    response.json(result);
+    const boletoModel = new RegistrarBoletoModel_1.default();
+    const registrarBoleto = new RegistrarBoleto_1.default();
+    registrarBoleto.add(model => (new ValidarEntradaDeDados_1.default()).validar(model));
+    registrarBoleto.add(model => (new BuscarDadosDoRepositorio_1.default()).buscar(model));
+    registrarBoleto.add(model => (new RegistrarNoBanco_1.default()).registrar(model));
+    registrarBoleto.add(model => (new EnviarBoletoParaOUsuario_1.default()).enviar(model));
+    registrarBoleto.registrar(boletoModel);
+    response.json(model);
     return next;
 });
 server.use(function crossOrigin(req, res, next) {

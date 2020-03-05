@@ -1,15 +1,16 @@
-class RegistrarBoleto{
 
-    private process = []
+    class RegistrarBoleto{
 
-    public execute(bag){
-        this.process.forEach((process) =>process());
+        private process = []
+
+        public registrar(model){
+            this.process.forEach((process) =>process(model));
+        }
+
+        public add(process){
+            this.process.push(process);
+        }
+
     }
 
-    public addProcess(processo){
-        this.process.push(processo);
-    }
-
-}
-
-export default RegistrarBoleto;
+    export default RegistrarBoleto;

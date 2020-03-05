@@ -15,20 +15,45 @@ const server = restify.createServer({
 
 
 server.get('/',(request,response,next)=>{
-    const model = new RegistrarBoletoModel();
 
-    try {
-        const registrarBoleto = new RegistrarBoleto();
-        registrarBoleto.addProcess((bag)=>(new ValidarEntradaDeDados()).validar(bag));
-        registrarBoleto.addProcess((bag)=>(new BuscarDadosDoRepositorio()).buscar(bag));
-        registrarBoleto.addProcess((bag)=>(new RegistrarNoBanco()).registrar(bag));
-        registrarBoleto.addProcess((bag)=>(new EnviarBoletoParaOUsuario()).enviar(bag));
-        registrarBoleto.execute(model);
-    }catch (e) {
-        result.success = false;
-    }
 
-    response.json(result);
+
+
+
+
+
+
+
+    const boletoModel = new RegistrarBoletoModel();
+
+    const registrarBoleto = new RegistrarBoleto();
+
+    registrarBoleto.add(model=>(new ValidarEntradaDeDados()).validar(model));
+    registrarBoleto.add(model=>(new BuscarDadosDoRepositorio()).buscar(model));
+    registrarBoleto.add(model=>(new RegistrarNoBanco()).registrar(model));
+    registrarBoleto.add(model=>(new EnviarBoletoParaOUsuario()).enviar(model));
+    registrarBoleto.registrar(boletoModel);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    response.json(model);
     return next;
 });
 server.use(
